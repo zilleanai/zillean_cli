@@ -1,0 +1,4 @@
+test_repo/
+venv/
+.vscode/
+__pycache__/
