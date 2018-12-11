@@ -20,7 +20,7 @@ class Domain():
             '.', 'mlplatform-domain.yml'))
 
     def install_comps(self, domaincfg='mlplatform-domain.yml'):
-        with open("mlplatform-domain.yml", 'r') as stream:
+        with open(domaincfg, 'r') as stream:
             domain_cfg = yaml.load(stream)
             for comp_url in domain_cfg['comps']:
                 comp = Comp(comp_url)

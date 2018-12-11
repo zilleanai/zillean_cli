@@ -21,3 +21,13 @@ class Comp():
         os.makedirs(compname, exist_ok=True)
         copyfile(os.path.join(folder.name, 'mlplatform-comp.yml'),
                  os.path.join(compname, 'mlplatform-comp.yml'))
+
+        self.install_deps(os.path.join(compname, 'mlplatform-comp.yml'))
+
+    def install_deps(self, compcfg='mlplatform-comp.yml'):
+        with open(compcfg, 'r') as stream:
+            comp_cfg = yaml.load(stream)
+            if 'depends' in comp_cfg:
+                for comp_url in comp_cfg['depends']:
+                    comp = Comp(comp_url)
+                    comp.install()
