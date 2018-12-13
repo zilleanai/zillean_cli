@@ -19,6 +19,7 @@ class Comp():
         with open(os.path.join(folder.name, 'mlplatform-comp.yml'), 'r') as stream:
             comp_cfg = yaml.load(stream)
             compname = comp_cfg['name']
+            print('[comp] ', compname)
         os.makedirs(os.path.join(self.root_path, compname), exist_ok=True)
         copyfile(os.path.join(folder.name, 'mlplatform-comp.yml'),
                  os.path.join(self.root_path, compname, 'mlplatform-comp.yml'))

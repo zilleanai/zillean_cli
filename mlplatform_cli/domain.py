@@ -19,6 +19,7 @@ class Domain():
         with open(os.path.join(folder.name, 'mlplatform-domain.yml'), 'r') as stream:
             domain_cfg = yaml.load(stream)
             domain_name = domain_cfg['name']
+            print('[domain] ', domain_name)
             if not os.path.exists(domain_name):
                 os.makedirs(domain_name)
             copyfile(os.path.join(folder.name, 'mlplatform-domain.yml'),
