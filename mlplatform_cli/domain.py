@@ -38,6 +38,7 @@ class Domain():
         root_path = os.path.join(domain_name, 'comps')
         if not os.path.exists(root_path):
             os.makedirs(root_path)
+            open(os.path.join(root_path, '__init__.py'), 'a').close()
         with open(domaincfg, 'r') as stream:
             domain_cfg = yaml.load(stream)
             for comp_url in domain_cfg['comps']:
