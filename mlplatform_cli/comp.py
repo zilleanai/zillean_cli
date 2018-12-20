@@ -3,7 +3,7 @@ from git import Repo
 import os
 import tempfile
 import yaml
-from shutil import copyfile
+from shutil import copyfile, copytree
 
 
 class Comp():
@@ -20,7 +20,8 @@ class Comp():
             comp_cfg = yaml.load(stream)
             compname = comp_cfg['name']
             print('[comp] ', compname)
-        os.makedirs(os.path.join(self.root_path, compname), exist_ok=True)
+        copytree(os.path.join(folder.name, compname),
+            os.path.join(self.root_path, compname))
         copyfile(os.path.join(folder.name, 'mlplatform-comp.yml'),
                  os.path.join(self.root_path, compname, 'mlplatform-comp.yml'))
 
