@@ -12,7 +12,7 @@ class Domain():
         self.url = url
         self.branch = branch
 
-    def install(self):
+    def install(self, install_requirements=False):
 
         folder = tempfile.TemporaryDirectory()
         repo = git.Repo.clone_from(self.url, folder.name, branch=self.branch)
@@ -24,7 +24,8 @@ class Domain():
             print('[domain] ', domain_name)
             self.install_docker_compose(project_dir)
             self.install_comps(domaincfg=os.path.join(
-                project_dir, 'mlplatform-domain.yml'), project_dir=project_dir)
+                project_dir, 'mlplatform-domain.yml'), project_dir=project_dir,
+                install_requirements=install_requirements)
         print(project_dir)
 
     def install_docker_compose(self, project_dir):
@@ -33,7 +34,7 @@ class Domain():
         copyfile(docker_compose,
                  os.path.join(project_dir, 'docker-compose.yml'))
 
-    def install_comps(self, domaincfg='mlplatform-domain.yml', project_dir=None):
+    def install_comps(self, domaincfg='mlplatform-domain.yml', project_dir=None, install_requirements=False):
         root_path = os.path.join(project_dir, 'comps')
         if not os.path.exists(root_path):
             os.makedirs(root_path)
@@ -42,4 +43,4 @@ class Domain():
             domain_cfg = yaml.load(stream)
             for comp_url in domain_cfg['comps']:
                 comp = Comp(comp_url, root_path=root_path)
-                comp.install()
+                comp.install(install_requirements=install_requirements)
