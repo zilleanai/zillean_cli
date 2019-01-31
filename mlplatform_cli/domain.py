@@ -31,8 +31,11 @@ class Domain():
     def install_docker_compose(self, project_dir):
         dirname = os.path.dirname(__file__)
         docker_compose = os.path.join(dirname, 'res', 'docker-compose.yml')
+        dockerfile = os.path.join(dirname, 'res', 'Dockerfile')
         copyfile(docker_compose,
                  os.path.join(project_dir, 'docker-compose.yml'))
+        copyfile(dockerfile,
+                 os.path.join(project_dir, 'Dockerfile'))
 
     @staticmethod
     def install_comps(domaincfg='mlplatform-domain.yml', project_dir=None, install_requirements=False):

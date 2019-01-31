@@ -24,7 +24,7 @@ services:
       - ./docker/postgres/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
 
   backend:
-    image: gitlab.chriamue.de:4567/mlplatform/mlplatform_backend
+    build: .
     links:
       - postgres
       - redis

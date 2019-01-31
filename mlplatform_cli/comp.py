@@ -25,13 +25,13 @@ class Comp():
             try:
                 subprocess.run(
                     ["pip", "install", "-r", os.path.join(folder.name, 'requirements.txt')])
-            except SystemExit as e:
+            except Exception as e:
                 pass
             try:
                 if os.path.exists(os.path.join(folder.name, 'package.json')):
                     subprocess.run(
                         ["npm", "install", "--prefix", os.path.join(folder.name)])
-            except SystemExit as e:
+            except Exception as e:
                 pass
         if not os.path.exists(os.path.join(self.root_path, 'comps', compname)):
             copytree(os.path.join(folder.name, compname),
