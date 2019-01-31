@@ -34,7 +34,8 @@ class Domain():
         copyfile(docker_compose,
                  os.path.join(project_dir, 'docker-compose.yml'))
 
-    def install_comps(self, domaincfg='mlplatform-domain.yml', project_dir=None, install_requirements=False):
+    @staticmethod
+    def install_comps(domaincfg='mlplatform-domain.yml', project_dir=None, install_requirements=False):
         comps_path = os.path.join(project_dir, 'comps')
         frontend_path = os.path.join(project_dir, 'frontend')
         if not os.path.exists(comps_path):

@@ -25,13 +25,14 @@ class Comp():
                 subprocess.run(["pip", "install", "-r", os.path.join(folder.name, 'requirements.txt')])
             except SystemExit as e:
                 pass
-
-        copytree(os.path.join(folder.name, compname),
-            os.path.join(self.root_path, 'comps', compname))
+        if not os.path.exists(os.path.join(self.root_path, 'comps', compname)):
+            copytree(os.path.join(folder.name, compname),
+                os.path.join(self.root_path, 'comps', compname))
         # install frontend
         if os.path.exists(os.path.join(folder.name, "frontend", compname)):
-            copytree(os.path.join(folder.name, "frontend", compname),
-                os.path.join(self.root_path, "frontend", compname))
+            if not os.path.exists(os.path.join(self.root_path, "frontend", compname)):
+                copytree(os.path.join(folder.name, "frontend", compname),
+                    os.path.join(self.root_path, "frontend", compname))
         copyfile(os.path.join(folder.name, 'mlplatform-comp.yml'),
                  os.path.join(self.root_path, 'comps', compname, 'mlplatform-comp.yml'))
 
