@@ -6,6 +6,7 @@ import yaml
 from shutil import copyfile, copytree
 import subprocess
 
+
 class Comp():
     def __init__(self, url, branch='master', root_path='.'):
         self.url = url
@@ -22,21 +23,26 @@ class Comp():
             print('[comp] ', compname)
         if install_requirements:
             try:
-                subprocess.run(["pip", "install", "-r", os.path.join(folder.name, 'requirements.txt')])
+                subprocess.run(
+                    ["pip", "install", "-r", os.path.join(folder.name, 'requirements.txt')])
+                if os.path.exists(os.path.join(folder.name, 'package.json')):
+                    subprocess.run(
+                        ["npm", "install", "--prefix", os.path.join(folder.name)])
             except SystemExit as e:
                 pass
         if not os.path.exists(os.path.join(self.root_path, 'comps', compname)):
             copytree(os.path.join(folder.name, compname),
-                os.path.join(self.root_path, 'comps', compname))
+                     os.path.join(self.root_path, 'comps', compname))
         # install frontend
         if os.path.exists(os.path.join(folder.name, "frontend", compname)):
             if not os.path.exists(os.path.join(self.root_path, "frontend", compname)):
                 copytree(os.path.join(folder.name, "frontend", compname),
-                    os.path.join(self.root_path, "frontend", compname))
+                         os.path.join(self.root_path, "frontend", compname))
         copyfile(os.path.join(folder.name, 'mlplatform-comp.yml'),
                  os.path.join(self.root_path, 'comps', compname, 'mlplatform-comp.yml'))
 
-        self.install_deps(os.path.join(self.root_path, 'comps', compname, 'mlplatform-comp.yml'))
+        self.install_deps(os.path.join(
+            self.root_path, 'comps', compname, 'mlplatform-comp.yml'), install_requirements=install_requirements)
 
     def install_deps(self, compcfg='mlplatform-comp.yml', install_requirements=False):
         with open(compcfg, 'r') as stream:
