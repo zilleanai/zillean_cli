@@ -25,6 +25,9 @@ class Comp():
             try:
                 subprocess.run(
                     ["pip", "install", "-r", os.path.join(folder.name, 'requirements.txt')])
+            except SystemExit as e:
+                pass
+            try:
                 if os.path.exists(os.path.join(folder.name, 'package.json')):
                     subprocess.run(
                         ["npm", "install", "--prefix", os.path.join(folder.name)])
