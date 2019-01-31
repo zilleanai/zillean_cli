@@ -21,7 +21,7 @@ def main():
     if args.subparser_name == 'domain':
         if args.COMMAND == 'install':
             domain = Domain(url=args.url)
-            domain.install(install_requirements=True)
+            domain.install(install_requirements=False)
     if args.subparser_name == 'comp':
         if args.COMMAND == 'install':
             comp = Comp(url=args.url)

@@ -7,7 +7,7 @@ from shutil import copyfile, copytree
 import subprocess
 
 class Comp():
-    def __init__(self, url, branch='master', root_path='comps'):
+    def __init__(self, url, branch='master', root_path='.'):
         self.url = url
         self.branch = branch
         self.root_path = root_path
@@ -27,11 +27,15 @@ class Comp():
                 pass
 
         copytree(os.path.join(folder.name, compname),
-            os.path.join(self.root_path, compname))
+            os.path.join(self.root_path, 'comps', compname))
+        # install frontend
+        if os.path.exists(os.path.join(folder.name, "frontend", compname)):
+            copytree(os.path.join(folder.name, "frontend", compname),
+                os.path.join(self.root_path, "frontend", compname))
         copyfile(os.path.join(folder.name, 'mlplatform-comp.yml'),
-                 os.path.join(self.root_path, compname, 'mlplatform-comp.yml'))
+                 os.path.join(self.root_path, 'comps', compname, 'mlplatform-comp.yml'))
 
-        self.install_deps(os.path.join(self.root_path, compname, 'mlplatform-comp.yml'))
+        self.install_deps(os.path.join(self.root_path, 'comps', compname, 'mlplatform-comp.yml'))
 
     def install_deps(self, compcfg='mlplatform-comp.yml', install_requirements=False):
         with open(compcfg, 'r') as stream:

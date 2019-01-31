@@ -35,12 +35,15 @@ class Domain():
                  os.path.join(project_dir, 'docker-compose.yml'))
 
     def install_comps(self, domaincfg='mlplatform-domain.yml', project_dir=None, install_requirements=False):
-        root_path = os.path.join(project_dir, 'comps')
-        if not os.path.exists(root_path):
-            os.makedirs(root_path)
-            open(os.path.join(root_path, '__init__.py'), 'a').close()
+        comps_path = os.path.join(project_dir, 'comps')
+        frontend_path = os.path.join(project_dir, 'frontend')
+        if not os.path.exists(comps_path):
+            os.makedirs(comps_path)
+            open(os.path.join(comps_path, '__init__.py'), 'a').close()
+        if not os.path.exists(frontend_path):
+            os.makedirs(frontend_path)
         with open(domaincfg, 'r') as stream:
             domain_cfg = yaml.load(stream)
             for comp_url in domain_cfg['comps']:
-                comp = Comp(comp_url, root_path=root_path)
+                comp = Comp(comp_url, root_path=project_dir)
                 comp.install(install_requirements=install_requirements)
