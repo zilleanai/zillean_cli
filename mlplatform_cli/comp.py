@@ -33,19 +33,19 @@ class Comp():
                         ["npm", "install", "--prefix", os.path.join(folder.name)])
             except Exception as e:
                 pass
-        if not os.path.exists(os.path.join(self.root_path, 'comps', compname)):
+        if not os.path.exists(os.path.join(self.root_path, 'bundles', compname)):
             copytree(os.path.join(folder.name, compname),
-                     os.path.join(self.root_path, 'comps', compname))
+                     os.path.join(self.root_path, 'bundles', compname))
         # install frontend
         if os.path.exists(os.path.join(folder.name, "frontend", compname)):
-            if not os.path.exists(os.path.join(self.root_path, "frontend", compname)):
+            if not os.path.exists(os.path.join(self.root_path, "frontend", "app", "comps", compname)):
                 copytree(os.path.join(folder.name, "frontend", compname),
-                         os.path.join(self.root_path, "frontend", compname))
+                         os.path.join(self.root_path, "frontend", "app", "comps", compname))
         copyfile(os.path.join(folder.name, 'mlplatform-comp.yml'),
-                 os.path.join(self.root_path, 'comps', compname, 'mlplatform-comp.yml'))
+                 os.path.join(self.root_path, 'bundles', compname, 'mlplatform-comp.yml'))
 
         self.install_deps(os.path.join(
-            self.root_path, 'comps', compname, 'mlplatform-comp.yml'), install_requirements=install_requirements)
+            self.root_path, 'bundles', compname, 'mlplatform-comp.yml'), install_requirements=install_requirements)
 
     def install_deps(self, compcfg='mlplatform-comp.yml', install_requirements=False):
         with open(compcfg, 'r') as stream:

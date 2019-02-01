@@ -32,27 +32,31 @@ class Domain():
     def install_docker_compose(self, project_dir):
         dirname = os.path.dirname(__file__)
         docker_compose = os.path.join(dirname, 'res', 'docker-compose.yml')
-        dockerfile = os.path.join(dirname, 'res', 'Dockerfile')
+        backenddockerfile = os.path.join(dirname, 'res', 'backend.Dockerfile')
+        frontenddockerfile = os.path.join(
+            dirname, 'res', 'frontend.Dockerfile')
         inituserdb = os.path.join(dirname, 'res', 'init-user-db.sh')
         copyfile(docker_compose,
                  os.path.join(project_dir, 'docker-compose.yml'))
-        copyfile(dockerfile,
-                 os.path.join(project_dir, 'Dockerfile'))
+        copyfile(backenddockerfile,
+                 os.path.join(project_dir, 'backend.Dockerfile'))
+        copyfile(frontenddockerfile,
+                 os.path.join(project_dir, 'frontend.Dockerfile'))
         os.makedirs(os.path.join(project_dir, 'docker', 'postgres'))
         copyfile(inituserdb,
                  os.path.join(project_dir, 'docker', 'postgres', 'init-user-db.sh'))
 
     @staticmethod
-    def install_comps(domaincfg = 'mlplatform-domain.yml', project_dir = None, install_requirements = False):
-        comps_path=os.path.join(project_dir, 'comps')
-        frontend_path=os.path.join(project_dir, 'frontend')
-        if not os.path.exists(comps_path):
-            os.makedirs(comps_path)
-            open(os.path.join(comps_path, '__init__.py'), 'a').close()
+    def install_comps(domaincfg='mlplatform-domain.yml', project_dir=None, install_requirements=False):
+        bundles_path = os.path.join(project_dir, 'bundles')
+        frontend_path = os.path.join(project_dir, 'frontend', 'app', 'comps')
+        if not os.path.exists(bundles_path):
+            os.makedirs(bundles_path)
+            open(os.path.join(bundles_path, '__init__.py'), 'a').close()
         if not os.path.exists(frontend_path):
             os.makedirs(frontend_path)
         with open(domaincfg, 'r') as stream:
-            domain_cfg=yaml.load(stream)
+            domain_cfg = yaml.load(stream)
             for comp_url in domain_cfg['comps']:
-                comp=Comp(comp_url, root_path = project_dir)
-                comp.install(install_requirements = install_requirements)
+                comp = Comp(comp_url, root_path=project_dir)
+                comp.install(install_requirements=install_requirements)

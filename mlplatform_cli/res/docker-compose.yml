@@ -5,7 +5,9 @@ version: '2.3'
 services:
 
   frontend:
-    image: gitlab.chriamue.de:4567/mlplatform/mlplatform_frontend
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
     ports:
       - 8888:8888  # access the app at localhost:8888
       - 5555:5555  # access webpack bundle analyzer at localhost:5555
@@ -24,7 +26,9 @@ services:
       - ./docker/postgres/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
 
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
     links:
       - postgres
       - redis
