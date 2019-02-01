@@ -22,17 +22,9 @@ class Comp():
             compname = comp_cfg['name']
             print('[comp] ', compname)
         if install_requirements:
-            try:
-                subprocess.run(
-                    ["pip", "install", "-r", os.path.join(folder.name, 'requirements.txt')])
-            except Exception as e:
-                pass
-            try:
-                if os.path.exists(os.path.join(folder.name, 'package.json')):
-                    subprocess.run(
-                        ["npm", "install", "--prefix", os.path.join(folder.name)])
-            except Exception as e:
-                pass
+            self.install_py_requirements(
+                os.path.join(folder.name, 'requirements.txt'))
+            self.install_js_requirements(os.path.join(folder.name))
         if not os.path.exists(os.path.join(self.root_path, 'bundles', compname)):
             copytree(os.path.join(folder.name, compname),
                      os.path.join(self.root_path, 'bundles', compname))
@@ -54,3 +46,18 @@ class Comp():
                 for comp_url in comp_cfg['depends']:
                     comp = Comp(comp_url, root_path=self.root_path)
                     comp.install(install_requirements=install_requirements)
+
+    def install_py_requirements(self, requirements_file):
+        try:
+            subprocess.run(
+                ["pip", "install", "-r", requirements_file])
+        except Exception as e:
+            pass
+
+    def install_js_requirements(self, package_folder):
+        try:
+            if os.path.exists(os.path.join(package_folder, 'package.json')):
+                subprocess.run(
+                    ["npm", "install", package_folder])
+        except Exception as e:
+            pass
