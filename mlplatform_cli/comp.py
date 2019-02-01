@@ -3,6 +3,7 @@ from git import Repo
 import os
 import tempfile
 import yaml
+import json
 from shutil import copyfile, copytree
 import subprocess
 
@@ -55,9 +56,12 @@ class Comp():
             pass
 
     def install_js_requirements(self, package_folder):
-        try:
-            if os.path.exists(os.path.join(package_folder, 'package.json')):
-                subprocess.run(
-                    ["npm", "install", package_folder])
-        except Exception as e:
-            pass
+        if os.path.exists(os.path.join(package_folder, 'package.json')):
+            with open(os.path.join(package_folder, 'package.json')) as f:
+                data = json.load(f)
+                for key in data['dependencies']:
+                    try:
+                        subprocess.run(
+                            ["npm", "install", key])
+                    except Exception as e:
+                        pass
