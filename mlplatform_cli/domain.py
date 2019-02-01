@@ -7,6 +7,7 @@ from shutil import copyfile
 from .comp import Comp
 from cookiecutter.main import cookiecutter
 
+
 class Domain():
     def __init__(self, url, branch='master'):
         self.url = url
@@ -32,22 +33,26 @@ class Domain():
         dirname = os.path.dirname(__file__)
         docker_compose = os.path.join(dirname, 'res', 'docker-compose.yml')
         dockerfile = os.path.join(dirname, 'res', 'Dockerfile')
+        inituserdb = os.path.join(dirname, 'res', 'init-user-db.sh')
         copyfile(docker_compose,
                  os.path.join(project_dir, 'docker-compose.yml'))
         copyfile(dockerfile,
                  os.path.join(project_dir, 'Dockerfile'))
+        os.makedirs(os.path.join(project_dir, 'docker', 'postgres'))
+        copyfile(inituserdb,
+                 os.path.join(project_dir, 'docker', 'postgres', 'init-user-db.sh'))
 
     @staticmethod
-    def install_comps(domaincfg='mlplatform-domain.yml', project_dir=None, install_requirements=False):
-        comps_path = os.path.join(project_dir, 'comps')
-        frontend_path = os.path.join(project_dir, 'frontend')
+    def install_comps(domaincfg = 'mlplatform-domain.yml', project_dir = None, install_requirements = False):
+        comps_path=os.path.join(project_dir, 'comps')
+        frontend_path=os.path.join(project_dir, 'frontend')
         if not os.path.exists(comps_path):
             os.makedirs(comps_path)
             open(os.path.join(comps_path, '__init__.py'), 'a').close()
         if not os.path.exists(frontend_path):
             os.makedirs(frontend_path)
         with open(domaincfg, 'r') as stream:
-            domain_cfg = yaml.load(stream)
+            domain_cfg=yaml.load(stream)
             for comp_url in domain_cfg['comps']:
-                comp = Comp(comp_url, root_path=project_dir)
-                comp.install(install_requirements=install_requirements)
+                comp=Comp(comp_url, root_path = project_dir)
+                comp.install(install_requirements = install_requirements)
