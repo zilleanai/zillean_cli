@@ -36,14 +36,18 @@ class Domain():
         frontenddockerfile = os.path.join(
             dirname, 'res', 'frontend.Dockerfile')
         inituserdb = os.path.join(dirname, 'res', 'init-user-db.sh')
-        copyfile(docker_compose,
-                 os.path.join(project_dir, 'docker-compose.yml'))
-        copyfile(backenddockerfile,
+        if not os.path.exists(os.path.join(project_dir, 'docker-compose.yml')):
+            copyfile(docker_compose,
+                    os.path.join(project_dir, 'docker-compose.yml'))
+        if not os.path.exists(os.path.join(project_dir, 'backend.Dockerfile')):
+            copyfile(backenddockerfile,
                  os.path.join(project_dir, 'backend.Dockerfile'))
-        copyfile(frontenddockerfile,
+        if not os.path.exists(os.path.join(project_dir, 'frontend.Dockerfile')):
+            copyfile(frontenddockerfile,
                  os.path.join(project_dir, 'frontend.Dockerfile'))
         os.makedirs(os.path.join(project_dir, 'docker', 'postgres'))
-        copyfile(inituserdb,
+        if not os.path.exists(os.path.join(project_dir, 'docker', 'postgres', 'init-user-db.sh')):
+            copyfile(inituserdb,
                  os.path.join(project_dir, 'docker', 'postgres', 'init-user-db.sh'))
 
     @staticmethod
