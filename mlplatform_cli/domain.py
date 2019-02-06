@@ -60,7 +60,8 @@ class Domain():
         if not os.path.exists(frontend_path):
             os.makedirs(frontend_path)
         with open(domaincfg, 'r') as stream:
+            already_installed = []
             domain_cfg = yaml.load(stream)
             for comp_url in domain_cfg['comps']:
                 comp = Comp(comp_url, root_path=project_dir)
-                comp.install(install_requirements=install_requirements)
+                comp.install(install_requirements=install_requirements, already_installed=already_installed)

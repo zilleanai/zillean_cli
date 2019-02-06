@@ -14,14 +14,19 @@ class Comp():
         self.branch = branch
         self.root_path = root_path
 
-    def install(self, install_requirements=False):
+    def install(self, install_requirements=False, already_installed=[]):
         folder = tempfile.TemporaryDirectory()
         repo = git.Repo.clone_from(self.url, folder.name, branch=self.branch)
         compname = 'unnamed'
         with open(os.path.join(folder.name, 'mlplatform-comp.yml'), 'r') as stream:
             comp_cfg = yaml.load(stream)
             compname = comp_cfg['name']
-            print('[comp] ', compname)
+        if compname in already_installed:
+            return
+        
+        print('[comp] ', compname)
+        self.install_deps(os.path.join(folder.name, 'mlplatform-comp.yml'),
+                          install_requirements=install_requirements, already_installed=already_installed)
         if install_requirements:
             self.install_py_requirements(
                 os.path.join(folder.name, 'requirements.txt'))
@@ -36,17 +41,16 @@ class Comp():
                          os.path.join(self.root_path, "frontend", "app", "comps", compname))
         copyfile(os.path.join(folder.name, 'mlplatform-comp.yml'),
                  os.path.join(self.root_path, 'bundles', compname, 'mlplatform-comp.yml'))
+        already_installed.append(compname)
 
-        self.install_deps(os.path.join(
-            self.root_path, 'bundles', compname, 'mlplatform-comp.yml'), install_requirements=install_requirements)
-
-    def install_deps(self, compcfg='mlplatform-comp.yml', install_requirements=False):
+    def install_deps(self, compcfg='mlplatform-comp.yml', install_requirements=False, already_installed=[]):
         with open(compcfg, 'r') as stream:
             comp_cfg = yaml.load(stream)
             if 'depends' in comp_cfg:
                 for comp_url in comp_cfg['depends']:
                     comp = Comp(comp_url, root_path=self.root_path)
-                    comp.install(install_requirements=install_requirements)
+                    comp.install(install_requirements=install_requirements,
+                                 already_installed=already_installed)
 
     def install_py_requirements(self, requirements_file):
         try:
