@@ -14,7 +14,7 @@ class Comp():
         self.branch = branch
         self.root_path = root_path
 
-    def install(self, install_requirements=False, already_installed=[]):
+    def install(self, install_requirements=False, already_installed=[], no_py=False, no_js=True):
         folder = tempfile.TemporaryDirectory()
         repo = git.Repo.clone_from(self.url, folder.name, branch=self.branch)
         compname = 'unnamed'
@@ -26,11 +26,13 @@ class Comp():
         
         print('[comp] ', compname)
         self.install_deps(os.path.join(folder.name, 'mlplatform-comp.yml'),
-                          install_requirements=install_requirements, already_installed=already_installed)
+                          install_requirements=install_requirements, already_installed=already_installed, no_py=no_py, no_js=no_js)
         if install_requirements:
-            self.install_py_requirements(
-                os.path.join(folder.name, 'requirements.txt'))
-            self.install_js_requirements(os.path.join(folder.name))
+            if not no_py:
+                self.install_py_requirements(
+                    os.path.join(folder.name, 'requirements.txt'))
+            if not no_js:
+                self.install_js_requirements(os.path.join(folder.name))
         if not os.path.exists(os.path.join(self.root_path, 'bundles', compname)):
             copytree(os.path.join(folder.name, compname),
                      os.path.join(self.root_path, 'bundles', compname))
@@ -43,7 +45,7 @@ class Comp():
                  os.path.join(self.root_path, 'bundles', compname, 'mlplatform-comp.yml'))
         already_installed.append(compname)
 
-    def install_deps(self, compcfg='mlplatform-comp.yml', install_requirements=False, already_installed=[]):
+    def install_deps(self, compcfg='mlplatform-comp.yml', install_requirements=False, already_installed=[], no_py=False, no_js=False):
         with open(compcfg, 'r') as stream:
             comp_cfg = yaml.load(stream)
             if 'depends' in comp_cfg:
