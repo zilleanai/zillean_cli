@@ -20,7 +20,7 @@ class Domain():
         project_dir = cookiecutter(folder.name)
         domain_name = os.path.basename(project_dir)
         with open(os.path.join(project_dir, 'mlplatform-domain.yml'), 'r') as stream:
-            domain_cfg = yaml.load(stream)
+            domain_cfg = yaml.load(stream, Loader=yaml.FullLoader)
             domain_name = domain_cfg['name']
             print('[domain] ', domain_name)
             self.install_docker_compose(project_dir)
@@ -61,7 +61,7 @@ class Domain():
             os.makedirs(frontend_path)
         with open(domaincfg, 'r') as stream:
             already_installed = []
-            domain_cfg = yaml.load(stream)
+            domain_cfg = yaml.load(stream, Loader=yaml.FullLoader)
             for comp_url in domain_cfg['comps']:
                 comp = Comp(comp_url, root_path=project_dir)
                 comp.install(install_requirements=install_requirements,

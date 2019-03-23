@@ -19,7 +19,7 @@ class Comp():
         repo = git.Repo.clone_from(self.url, folder.name, branch=self.branch)
         compname = 'unnamed'
         with open(os.path.join(folder.name, 'mlplatform-comp.yml'), 'r') as stream:
-            comp_cfg = yaml.load(stream)
+            comp_cfg = yaml.load(stream, Loader=yaml.FullLoader)
             compname = comp_cfg['name']
         if compname in already_installed:
             return
@@ -47,7 +47,7 @@ class Comp():
 
     def install_deps(self, compcfg='mlplatform-comp.yml', install_requirements=False, already_installed=[], no_py=False, no_js=False):
         with open(compcfg, 'r') as stream:
-            comp_cfg = yaml.load(stream)
+            comp_cfg = yaml.load(stream, Loader=yaml.FullLoader)
             if 'depends' in comp_cfg:
                 for comp_url in comp_cfg['depends']:
                     comp = Comp(comp_url, root_path=self.root_path)
