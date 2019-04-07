@@ -19,13 +19,13 @@ class Domain():
         repo = git.Repo.clone_from(self.url, folder.name, branch=self.branch)
         project_dir = cookiecutter(folder.name)
         domain_name = os.path.basename(project_dir)
-        with open(os.path.join(project_dir, 'mlplatform-domain.yml'), 'r') as stream:
+        with open(os.path.join(project_dir, 'zillean-domain.yml'), 'r') as stream:
             domain_cfg = yaml.load(stream, Loader=yaml.FullLoader)
             domain_name = domain_cfg['name']
             print('[domain] ', domain_name)
             self.install_docker_compose(project_dir)
             self.install_comps(domaincfg=os.path.join(
-                project_dir, 'mlplatform-domain.yml'), project_dir=project_dir,
+                project_dir, 'zillean-domain.yml'), project_dir=project_dir,
                 install_requirements=install_requirements, no_py=no_py, no_js=no_js)
         print(project_dir)
 
@@ -51,7 +51,7 @@ class Domain():
                      os.path.join(project_dir, 'docker', 'postgres', 'init-user-db.sh'))
 
     @staticmethod
-    def install_comps(domaincfg='mlplatform-domain.yml', project_dir=None, install_requirements=False, no_py=False, no_js=True):
+    def install_comps(domaincfg='zillean-domain.yml', project_dir=None, install_requirements=False, no_py=False, no_js=True):
         bundles_path = os.path.join(project_dir, 'bundles')
         frontend_path = os.path.join(project_dir, 'frontend', 'app', 'comps')
         if not os.path.exists(bundles_path):

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import setuptools
 
@@ -8,9 +8,9 @@ with open("README.md", "r") as fh:
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
-setuptools.setup(name='mlplatform_cli',
+setuptools.setup(name='zillean_cli',
                  version='0.0.1',
-                 description='mlplatform command line interface',
+                 description='zillean command line interface',
                  long_description=long_description,
                  long_description_content_type="text/markdown",
                  license='MIT',
@@ -36,6 +36,6 @@ setuptools.setup(name='mlplatform_cli',
                      "Operating System :: OS Independent",
                  ), entry_points='''
                     [console_scripts]
-                    mlplatform-cli=mlplatform_cli.main:main
+                    zillean-cli=zillean_cli.main:main
                     ''',
                  )

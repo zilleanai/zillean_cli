@@ -18,14 +18,14 @@ class Comp():
         folder = tempfile.TemporaryDirectory()
         repo = git.Repo.clone_from(self.url, folder.name, branch=self.branch)
         compname = 'unnamed'
-        with open(os.path.join(folder.name, 'mlplatform-comp.yml'), 'r') as stream:
+        with open(os.path.join(folder.name, 'zillean-comp.yml'), 'r') as stream:
             comp_cfg = yaml.load(stream, Loader=yaml.FullLoader)
             compname = comp_cfg['name']
         if compname in already_installed:
             return
-        
+
         print('[comp] ', compname)
-        self.install_deps(os.path.join(folder.name, 'mlplatform-comp.yml'),
+        self.install_deps(os.path.join(folder.name, 'zillean-comp.yml'),
                           install_requirements=install_requirements, already_installed=already_installed, no_py=no_py, no_js=no_js)
         if install_requirements:
             if not no_py:
@@ -41,11 +41,11 @@ class Comp():
             if not os.path.exists(os.path.join(self.root_path, "frontend", "app", "comps", compname)):
                 copytree(os.path.join(folder.name, "frontend", compname),
                          os.path.join(self.root_path, "frontend", "app", "comps", compname))
-        copyfile(os.path.join(folder.name, 'mlplatform-comp.yml'),
-                 os.path.join(self.root_path, 'bundles', compname, 'mlplatform-comp.yml'))
+        copyfile(os.path.join(folder.name, 'zillean-comp.yml'),
+                 os.path.join(self.root_path, 'bundles', compname, 'zillean-comp.yml'))
         already_installed.append(compname)
 
-    def install_deps(self, compcfg='mlplatform-comp.yml', install_requirements=False, already_installed=[], no_py=False, no_js=False):
+    def install_deps(self, compcfg='zillean-comp.yml', install_requirements=False, already_installed=[], no_py=False, no_js=False):
         with open(compcfg, 'r') as stream:
             comp_cfg = yaml.load(stream, Loader=yaml.FullLoader)
             if 'depends' in comp_cfg:

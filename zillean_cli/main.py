@@ -3,8 +3,8 @@ from .domain import Domain
 from .comp import Comp
 
 def main():
-    parser = argparse.ArgumentParser(prog='mlplatform-cli',
-                                     description='mlplatform command line interface')
+    parser = argparse.ArgumentParser(prog='zillean-cli',
+                                     description='zillean command line interface')
     subparsers = parser.add_subparsers(
         dest='subparser_name', help='sub-command help')
     parser_domain = subparsers.add_parser('domain', help='domain help')

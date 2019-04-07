@@ -1,4 +1,4 @@
-include mlplatform_cli/res/docker-compose.yml
-include mlplatform_cli/res/backend.Dockerfile
-include mlplatform_cli/res/frontend.Dockerfile
-include mlplatform_cli/res/init-user-db.sh
+include zillean_cli/res/docker-compose.yml
+include zillean_cli/res/backend.Dockerfile
+include zillean_cli/res/frontend.Dockerfile
+include zillean_cli/res/init-user-db.sh

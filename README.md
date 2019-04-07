@@ -1,15 +1,15 @@
-# mlplatform_cli
+# zillean_cli
 
-MLPlatform Command Line Interface
+Zillean Command Line Interface
 
 ## Installation
 
 ```bash
-pip install git+https://gitlab.chriamue.de/mlplatform/mlplatform_cli.git
+pip install git+https://github.com/zilleanai/zillean_cli
 ```
 
 ## Usage Example
 
 ```bash
-mlplatform-cli domain install ssh://git@gitlab.chriamue.de:2224/mlplatform/domain/finance.git
+zillean-cli domain install ssh://git@gitlab.chriamue.de:2224/mlplatform/domain/finance.git
 ```
