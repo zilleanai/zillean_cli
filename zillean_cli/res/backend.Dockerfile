@@ -1,10 +1,9 @@
-FROM gitlab.chriamue.de:4567/mlplatform/mlplatform_backend
+FROM zilleanai/zillean_backend
 USER root
-COPY mlplatform-domain.yml mlplatform-domain.yml
-RUN mlplatform-cli domain install_requirements mlplatform-domain.yml --no_js
-
-COPY --chown=flask unchained_config.py unchained_config.py
-COPY --chown=flask routes.py backend/routes.py
-COPY --chown=flask bundles bundles
+COPY zillean-domain.yml zillean-domain.yml
+RUN zillean-cli domain install_requirements zillean-domain.yml --no_js
 
 USER flask
+COPY unchained_config.py unchained_config.py
+COPY routes.py backend/routes.py
+COPY bundles bundles

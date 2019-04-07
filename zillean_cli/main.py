@@ -15,6 +15,8 @@ def main():
                                help='do not install python requirements')
     parser_domain.add_argument('--no_js', action='store_true',
                                help='do not install javascript dependencies')
+    parser_domain.add_argument('--no_input', action='store_true',
+                               help='do not wait for user input and install using default config')
 
     parser_comp = subparsers.add_parser('comp', help='comp help')
     parser_comp.add_argument('COMMAND', type=str, help='COMMAND help')
@@ -26,7 +28,7 @@ def main():
     if args.subparser_name == 'domain':
         if args.COMMAND == 'install':
             domain = Domain(url=args.url)
-            domain.install(install_requirements=False)
+            domain.install(install_requirements=False, no_input=args.no_input)
         if args.COMMAND == 'install_requirements':
             Domain.install_comps(domaincfg=args.url, project_dir='.', install_requirements=True, no_py=args.no_py, no_js=args.no_js)
     if args.subparser_name == 'comp':

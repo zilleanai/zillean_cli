@@ -13,11 +13,11 @@ class Domain():
         self.url = url
         self.branch = branch
 
-    def install(self, install_requirements=False, no_py=False, no_js=True):
+    def install(self, install_requirements=False, no_py=False, no_js=True, no_input=False):
 
         folder = tempfile.TemporaryDirectory()
         repo = git.Repo.clone_from(self.url, folder.name, branch=self.branch)
-        project_dir = cookiecutter(folder.name)
+        project_dir = cookiecutter(folder.name, no_input=no_input)
         domain_name = os.path.basename(project_dir)
         with open(os.path.join(project_dir, 'zillean-domain.yml'), 'r') as stream:
             domain_cfg = yaml.load(stream, Loader=yaml.FullLoader)

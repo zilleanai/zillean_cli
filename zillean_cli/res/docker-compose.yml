@@ -59,7 +59,7 @@ services:
       - /celery-worker-entrypoint.sh
 
   celery_beat:
-    image: gitlab.chriamue.de:4567/mlplatform/mlplatform_backend
+    image: zilleanai/zillean_backend
     environment:
       - FLASK_REDIS_HOST=redis
     entrypoint:
