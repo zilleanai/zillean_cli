@@ -42,7 +42,7 @@ class Comp():
             if not os.path.exists(os.path.join(self.root_path, "frontend", "app", "comps", compname)):
                 copytree(os.path.join(folder.name, "frontend", compname),
                          os.path.join(self.root_path, "frontend", "app", "comps", compname))
-        copyfile(os.path.join(folder.name, 'zillean-comp.yml'),
+        copytree(os.path.join(folder.name, 'zillean-comp.yml'),
                  os.path.join(self.root_path, 'bundles', compname, 'zillean-comp.yml'))
         already_installed.append(compname)
 
