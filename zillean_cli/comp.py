@@ -33,9 +33,10 @@ class Comp():
                     os.path.join(folder.name, 'requirements.txt'))
             if not no_js:
                 self.install_js_requirements(os.path.join(folder.name))
-        if not os.path.exists(os.path.join(self.root_path, 'bundles', compname)):
-            copytree(os.path.join(folder.name, compname),
-                     os.path.join(self.root_path, 'bundles', compname))
+        if os.path.exists(os.path.join(folder.name, compname)):
+            if not os.path.exists(os.path.join(self.root_path, 'bundles', compname)):
+                copytree(os.path.join(folder.name, compname),
+                         os.path.join(self.root_path, 'bundles', compname))
         # install frontend
         if os.path.exists(os.path.join(folder.name, "frontend", compname)):
             if not os.path.exists(os.path.join(self.root_path, "frontend", "app", "comps", compname)):
