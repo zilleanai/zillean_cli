@@ -25,7 +25,6 @@ class Comp():
             return
 
         print('[comp] ', compname)
-        os.makedirs(os.path.join(self.root_path, 'bundles', compname))
         self.install_deps(os.path.join(folder.name, 'zillean-comp.yml'),
                           install_requirements=install_requirements, already_installed=already_installed, no_py=no_py, no_js=no_js)
         if install_requirements:
@@ -38,13 +37,13 @@ class Comp():
             if not os.path.exists(os.path.join(self.root_path, 'bundles', compname)):
                 copytree(os.path.join(folder.name, compname),
                          os.path.join(self.root_path, 'bundles', compname))
+            copyfile(os.path.join(folder.name, 'zillean-comp.yml'),
+                 os.path.join(self.root_path, 'bundles', compname, 'zillean-comp.yml'))
         # install frontend
         if os.path.exists(os.path.join(folder.name, "frontend", compname)):
             if not os.path.exists(os.path.join(self.root_path, "frontend", "app", "comps", compname)):
                 copytree(os.path.join(folder.name, "frontend", compname),
                          os.path.join(self.root_path, "frontend", "app", "comps", compname))
-        copyfile(os.path.join(folder.name, 'zillean-comp.yml'),
-                 os.path.join(self.root_path, 'bundles', compname, 'zillean-comp.yml'))
         already_installed.append(compname)
 
     def install_deps(self, compcfg='zillean-comp.yml', install_requirements=False, already_installed=[], no_py=False, no_js=False):
