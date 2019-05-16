@@ -11,5 +11,5 @@ pip install git+https://github.com/zilleanai/zillean_cli
 ## Usage Example
 
 ```bash
-zillean-cli domain install ssh://git@gitlab.chriamue.de:2224/mlplatform/domain/finance.git
+zillean-cli domain install https://gitlab.com/zilleanai/domain/finance
 ```
